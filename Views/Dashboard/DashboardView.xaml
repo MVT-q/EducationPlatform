@@ -1,0 +1,237 @@
+﻿<UserControl x:Class="Education_Platform.Views.Dashboard.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Education_Platform.Views.Dashboard"
+             xmlns:vm="clr-namespace:Education_Platform.ViewModels.Dashboard"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <vm:DashboardViewModel/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <ScrollViewer>
+
+        <StackPanel Margin="20">
+
+            <TextBlock Text="Dashboard"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Margin="0 0 0 20"/>
+
+            <TextBlock Text="Welcome back!"
+                       FontSize="18"
+                       Foreground="Gray"
+                       Margin="0 0 0 25"/>
+
+            <Button Content="Open Reference"
+                    Width="220"
+                    Height="42"
+                    HorizontalAlignment="Left"
+                    Margin="0 0 0 30"
+                    FontSize="16"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Command="{Binding OpenReferenceCommand}"/>
+
+            <!-- STUDENT -->
+
+            <StackPanel Visibility="{Binding IsStudent,
+                                     Converter={StaticResource BooleanToVisibilityConverter}}">
+                
+                <TextBlock Text="Student Overview"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Margin="0 10 0 15"/>
+
+                <WrapPanel>
+
+                    <materialDesign:Card Width="220"
+                                         Height="140"
+                                         Margin="0 0 15 15"
+                                         Padding="20"
+                                         Background="#E3F2FD">
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Available Tests"
+                                       FontSize="16"
+                                       Foreground="#666"/>
+
+                            <TextBlock Text="{Binding TestsCount}"
+                                       FontSize="36"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Width="220"
+                                         Height="140"
+                                         Margin="0 0 15 15"
+                                         Padding="20"
+                                         Background="#E3F2FD">
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Materials"
+                                       FontSize="16"
+                                       Foreground="#666"/>
+
+                            <TextBlock Text="{Binding MaterialsCount}"
+                                       FontSize="36"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Width="220"
+                                         Height="140"
+                                         Margin="0 0 15 15"
+                                         Padding="20"
+                                         Background="#E3F2FD">
+
+                        <StackPanel VerticalAlignment="Center">
+                            
+                            <TextBlock Text="Passed Tests"
+                                       FontSize="16"
+                                       Foreground="#666"/>
+
+                            <TextBlock Text="{Binding PassedTestsCount}"
+                                       FontSize="36"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+                </WrapPanel>
+
+            </StackPanel>
+
+            <!-- TEACHER -->
+
+            <StackPanel Visibility="{Binding IsTeacher,
+                                     Converter={StaticResource BooleanToVisibilityConverter}}">
+                
+                <TextBlock Text="Teacher Overview"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Margin="0 20 0 15"/>
+
+                <WrapPanel>
+                    <materialDesign:Card Width="220"
+                                         Height="140"
+                                         Margin="0 0 15 15"
+                                         Padding="20"
+                                         Background="#E3F2FD">
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Created Tests"
+                                       FontSize="16"
+                                       Foreground="#666"/>
+
+                            <TextBlock Text="{Binding CreatedTestsCount}"
+                                       FontSize="36"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Width="220"
+                                         Height="140"
+                                         Margin="0 0 15 15"
+                                         Padding="20"
+                                         Background="#E3F2FD">
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Created Materials"
+                                       FontSize="16"
+                                       Foreground="#666"/>
+
+                            <TextBlock Text="{Binding CreatedMaterialsCount}"
+                                       FontSize="36"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+                </WrapPanel>
+
+
+            </StackPanel>
+
+            <!-- ADMIN -->
+
+
+            <StackPanel Visibility="{Binding IsAdmin,
+                                 Converter={StaticResource BooleanToVisibilityConverter}}">
+                
+                <TextBlock Text="Administration"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Margin="0 20 0 15"/>
+
+                <WrapPanel>
+
+                    <materialDesign:Card Width="220"
+                                         Height="140"
+                                         Margin="0 0 15 15"
+                                         Padding="20"
+                                         Background="#E3F2FD">
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Users"
+                                       FontSize="16"
+                                       Foreground="#666"/>
+
+                            <TextBlock Text="{Binding UsersCount}"
+                                       FontSize="36"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Width="220"
+                                         Height="140"
+                                         Margin="0 0 15 15"
+                                         Padding="20"
+                                         Background="#E3F2FD">
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Teachers"
+                                       FontSize="16"
+                                       Foreground="#666"/>
+
+                            <TextBlock Text="{Binding TeachersCount}"
+                                       FontSize="36"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Width="220"
+                                         Height="140"
+                                         Margin="0 0 15 15"
+                                         Padding="20"
+                                         Background="#E3F2FD">
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Students"
+                                       FontSize="16"
+                                       Foreground="#666"/>
+
+                            <TextBlock Text="{Binding StudentsCount}"
+                                       FontSize="36"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+                </WrapPanel>
+
+            </StackPanel>
+
+        </StackPanel>
+
+    </ScrollViewer>
+</UserControl>

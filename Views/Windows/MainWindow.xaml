@@ -1,0 +1,107 @@
+﻿<Window x:Class="Education_Platform.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Education_Platform"
+        Style="{StaticResource MaterialDesignWindow}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1280">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0"
+                    Background="#2C2C2C">
+            <StackPanel Margin="20">
+
+                <Image Width="80"
+                       Height="80"
+                       Margin="0 0 0 10"
+                       Source="{Binding AvatarPath}"/>
+
+                <TextBlock Text="{Binding Login}"
+                           Foreground="White"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Text="{Binding Role}"
+                           Foreground="#BBBBBB"
+                           HorizontalAlignment="Center"
+                           Margin="0 0 0 20"/>
+
+            </StackPanel>
+
+            <Separator Margin="0 5"
+                       Background="#555555"/>
+
+            <Button Content="Dashboard"
+                    Height="40"
+                    Margin="15"
+                    Command="{Binding OpenDashboardCommand}"/>
+
+            <Button Content="Admin Panel"
+                    Height="40"
+                    Margin="15"
+                    Command="{Binding OpenAdminPanelCommand}"
+                    Visibility="{Binding IsAdmin,
+                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Button Content="Tests"
+                    Height="40"
+                    Margin="15"
+                    Command="{Binding OpenTestsPanelCommand}"/>
+
+            <Button Content="Test Creator"
+                    Height="40"
+                    Margin="15"
+                    Command="{Binding OpenTestsCreatorCommand}"
+                    Visibility="{Binding IsTeacher,
+                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Button Content="Results"
+                    Height="40"
+                    Margin="15"
+                    Command="{Binding OpenResultsCommand}"
+                    Visibility="{Binding IsStudent,
+                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Button Content="Materials"
+                    Height="40"
+                    Margin="15"
+                    Command="{Binding OpenMaterialsPanelCommand}"/>
+
+            <Button Content="Material Creator"
+                    Height="40"
+                    Margin="15"
+                    Command="{Binding OpenMaterialsCreatorCommand}"
+                    Visibility="{Binding IsTeacher,
+                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Separator Margin="0 5"
+                       Background="#555555"/>
+
+            <Button Content="Profile"
+                    Height="40"
+                    Margin="15"
+                    Command="{Binding OpenProfileCommand}"/>
+
+            <Button Content="Logout"
+                    Height="40"
+                    Margin="15"
+                    Command="{Binding LogoutCommand}"/>
+        </StackPanel>
+
+        <Frame x:Name="MainFrame"
+               Grid.Column="1"
+               NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>

@@ -1,0 +1,193 @@
+﻿<UserControl x:Class="Education_Platform.Views.Tests.TestCreatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Education_Platform.Views.Tests"
+             xmlns:vm="clr-namespace:Education_Platform.ViewModels.Tests"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <vm:TestCreatorViewModel/>
+    </UserControl.DataContext>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+        <StackPanel Margin="20">
+            <TextBlock Text="Create Test"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       Margin="0 0 0 25"/>
+
+            <!-- Title -->
+            <TextBox Text="{Binding Title}"
+                     Margin="0 0 0 20"
+                     FontSize="20"
+                     materialDesign:HintAssist.Hint="Test title"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+            <!-- Description -->
+            <TextBox Text="{Binding Description}"
+                     AcceptsReturn="True"
+                     Height="100"
+                     Margin="0 0 0 20"
+                     FontSize="16"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     materialDesign:HintAssist.Hint="Description"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+            <TextBox Text="{Binding MaxAttempts}"
+                     FontSize="16"
+                     Margin="0 0 0 25"
+                     materialDesign:HintAssist.Hint="Max attempts (0 = unlimited)"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+            <!-- Add Question -->
+            <Button Content="Add Question"
+                    Command="{Binding AddQuestionCommand}"
+                    Margin="0 0 0 20"
+                    FontSize="16"
+                    HorizontalAlignment="Left"
+                    Width="180"
+                    Height="35"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
+
+            <!-- Questions -->
+            <ItemsControl ItemsSource="{Binding Questions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card Margin="0 0 0 20"
+                                             Padding="20">
+                            <StackPanel>
+                                <!-- Header -->
+                                <DockPanel Margin="0 0 0 15">
+                                    <TextBlock Text="Question"
+                                               FontWeight="Bold"
+                                               FontSize="18"/>
+
+                                    <Button Content="Delete"
+                                            DockPanel.Dock="Right"
+                                            Width="100"
+                                            Height="35"
+                                            HorizontalAlignment="Right"
+                                            Command="{Binding DataContext.RemoveQuestionCommand,
+                                                      RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"                                            
+                                            Background="#D32F2F"
+                                            Style="{StaticResource MaterialDesignRaisedButton}"/>
+                                </DockPanel>
+
+                                <!-- Text -->
+                                <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="0 10 0 10"
+                                         MinHeight="60"
+                                         FontSize="14"
+                                         AcceptsReturn="True"
+                                         TextWrapping="Wrap"
+                                         VerticalContentAlignment="Center"
+                                         materialDesign:HintAssist.Hint="Question text"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+                                <!-- Type -->
+                                <ComboBox ItemsSource="{Binding DataContext.Types,
+                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          SelectedItem="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Height="30"
+                                          Width="220"
+                                          HorizontalAlignment="Left"
+                                          Margin="0 0 0 15"
+                                          PreviewMouseWheel="ComboBox_PreviewMouseWheel"/>
+
+                                <StackPanel>
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Visibility" 
+                                                    Value="Collapsed"/>
+
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Type}" 
+                                                             Value="Single choice">
+                                                    
+                                                    <Setter Property="Visibility" 
+                                                            Value="Visible"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding Type}" 
+                                                             Value="Multiple choice">
+                                                    
+                                                    <Setter Property="Visibility" 
+                                                            Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+
+                                    <Button Content="Add Answer"
+                                            Command="{Binding AddAnswerCommand}"
+                                            HorizontalAlignment="Left"
+                                            Margin="0 10 0 15"
+                                            Height="35"
+                                            Width="140"
+                                            Style="{StaticResource MaterialDesignOutlinedButton}"/>
+
+                                    <ItemsControl ItemsSource="{Binding Answers}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="#F8FAFC"
+                                                        CornerRadius="6"
+                                                        Padding="10"
+                                                        Margin="0 0 0 8">
+
+                                                    <StackPanel Orientation="Horizontal" 
+                                                                Margin="0 2">
+                                                        <ToolTipService.ToolTip>
+                                                            Correct answer
+                                                        </ToolTipService.ToolTip>
+
+                                                        <CheckBox IsChecked="{Binding IsCorrect}"
+                                                                  Margin="0 0 10 0"/>
+
+                                                        <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                                                                 Width="300"
+                                                                 AcceptsReturn="True"
+                                                                 TextWrapping="Wrap"
+                                                                 materialDesign:HintAssist.Hint="Answer text"
+                                                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+                                                        <Button Width="35"
+                                                                Margin="5 0 0 0"
+                                                                Foreground="#D32F2F"
+                                                                Command="{Binding DataContext.RemoveAnswerCommand,
+                                                                          RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                                CommandParameter="{Binding}"
+                                                                Style="{StaticResource MaterialDesignToolButton}">
+                                                            <materialDesign:PackIcon Kind="Delete"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Save -->
+            <Button Content="Save"
+                    Command="{Binding SaveCommand}"
+                    Height="40"
+                    Margin="0 20 0 0"
+                    FontSize="22"
+                    Width="500"/>
+
+        </StackPanel>
+
+    </ScrollViewer>
+</UserControl>

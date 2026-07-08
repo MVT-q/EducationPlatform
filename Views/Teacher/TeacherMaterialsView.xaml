@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Education_Platform.Views.Teacher.TeacherMaterialsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Education_Platform.Views.Materials"
+             xmlns:vm="clr-namespace:Education_Platform.ViewModels.Teacher"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.DataContext>
+        <vm:TeacherMaterialsViewModel/>
+    </UserControl.DataContext>
+
+    <StackPanel>
+        <TextBlock Text="My Materials"
+                   FontSize="30"
+                   FontWeight="Bold"
+                   Margin="20 20 20 10"/>
+
+        <Button Content="All Materials"
+                Command="{Binding OpenAllMaterialsCommand}"
+                HorizontalAlignment="Right"
+                Margin="20 20 20 10"/>
+
+        <TextBlock Text="No materials found"
+                   HorizontalAlignment="Center"
+                   Margin="20">
+
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Materials.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+
+                </Style>
+            </TextBlock.Style>
+
+        </TextBlock>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+            <ItemsControl ItemsSource="{Binding Materials}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:MaterialCardView/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </StackPanel>
+</UserControl>

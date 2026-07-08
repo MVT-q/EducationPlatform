@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Education_Platform.Views.Tests.TestCardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Education_Platform.Views.Tests"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Cursor="">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <materialDesign:Card Width="320"
+                         Margin="10"
+                         Padding="20"
+                         BorderThickness="1"
+                         BorderBrush="#E5E7EB">
+        <StackPanel>
+            <TextBlock Text="{Binding Title}"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       TextTrimming="CharacterEllipsis"/>
+
+            <TextBlock Margin="0 8 0 0">
+                <Run Text="Author: "
+                     FontWeight="SemiBold"/>
+                <Run Text="{Binding Author}"/>
+            </TextBlock>
+
+            <TextBlock FontSize="12"
+                       Foreground="Gray"
+                       Margin="0 4 0 0">
+                <Run Text="Created at: "/>
+                <Run Text="{Binding CreatedAt}"/>
+            </TextBlock>
+
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 15 0 0" Cursor="">
+
+                <Button Content="Open"
+                        Margin="0 0 15 0"
+                        Command="{Binding OpenCommand}"/>
+
+                <Button Content="Results"
+                        Margin="0 0 15 0"
+                        Command="{Binding OpenResultsCommand}"
+                        Visibility="{Binding IsOwner,
+                                     Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                <Button Content="Delete"
+                        Margin="0 0 15 0"
+                        Foreground="#E53935"                      
+                        Command="{Binding DeleteCommand}"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Visibility="{Binding IsOwner,
+                                     Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </StackPanel>
+        </StackPanel>
+    </materialDesign:Card>
+</UserControl>

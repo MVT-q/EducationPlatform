@@ -1,0 +1,188 @@
+﻿<UserControl x:Class="Education_Platform.Views.Materials.MaterialCreatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Education_Platform.Views.Materials"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+        <StackPanel Margin="20">
+
+            <TextBlock Text="Create Material"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       Margin="0 0 0 25"/>
+
+            <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="20"
+                     Margin="0 0 0 20"
+                     materialDesign:HintAssist.Hint="Title"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+            <TextBox Text="{Binding Description}"
+                     Height="100"
+                     FontSize="16"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     Margin="0 0 0 20"
+                     materialDesign:HintAssist.Hint="Description"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+            <TextBlock Text="Content" Margin="0 10 0 0"/>
+            <TextBox Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     FontSize="15"                    
+                     Height="300"
+                     AcceptsTab="True"/>
+
+            <TextBlock Text="Header Color" 
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Margin="0 10 0 10"/>
+
+            <materialDesign:Card Padding="20"
+                                 Margin="0 0 0 20">
+                <StackPanel>
+                    
+                    <TextBlock Text="Choose a ready-made color or enter your own" 
+                               Margin="0 0 0 15"
+                               Foreground="Gray"/>
+                    
+                    <TextBox Text="{Binding Color}"
+                             Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Custom color"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+                        <ComboBox ItemsSource="{Binding Colors}"
+                                  SelectedItem="{Binding Color}"
+                                  Height="35"
+                                  PreviewMouseWheel="ComboBox_PreviewMouseWheel">
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <Border Width="20"
+                                                Height="20"
+                                                Margin="5"
+                                                Background="{Binding}"/>
+
+                                        <TextBlock Text="{Binding}"
+                                                   VerticalAlignment="Center"/>
+
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+
+                        </ComboBox>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <TextBlock Text="Resources"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="0 0 0 15"/>
+
+            <Button Content="Add Resource"
+                    Command="{Binding AddResourceCommand}"
+                    Width="180"
+                    Height="35"
+                    FontSize="16"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource MaterialDesignOutlinedButton}" Cursor="Hand"/>
+
+            <ItemsControl ItemsSource="{Binding Resources}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card Padding="20"
+                                             Margin="0 0 0 15">
+                            <StackPanel>
+
+                                <TextBox Text="{Binding Name,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="0 0 0 15"
+                                         materialDesign:HintAssist.Hint="Resource name"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+                                <TextBox Text="{Binding Url,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="0 0 0 15"
+                                         materialDesign:HintAssist.Hint="URL or file path"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+                                <ComboBox ItemsSource="{Binding DataContext.ResourceTypes,
+                                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          SelectedItem="{Binding Type}"
+                                          Height="35"
+                                          Margin="0 0 0 15"
+                                          PreviewMouseWheel="ComboBox_PreviewMouseWheel"/>
+
+                                <Button Content="Choose File"
+                                        Width="160"
+                                        Height="35"
+                                        HorizontalAlignment="Left"
+                                        Command="{Binding ChooseFileCommand}"
+                                        Margin="0 0 0 10">
+
+                                    <Button.Style>
+                                        <Style TargetType="Button"
+                                               BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed"/>
+
+                                            <Style.Triggers>
+
+                                                <DataTrigger Binding="{Binding Type}"
+                                                             Value="File">
+
+                                                    <Setter Property="Visibility"
+                                                            Value="Visible"/>
+
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                </Button>
+
+                                <Button Content="Delete"
+                                        Width="100"
+                                        Height="35"
+                                        HorizontalAlignment="Right"
+                                        Background="#D32F2F"
+                                        Command="{Binding DataContext.RemoveResourceCommand,
+                                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"/>
+
+
+                            </StackPanel>
+
+                        </materialDesign:Card>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+            <Button Content="Save"
+                    Command="{Binding SaveCommand}"
+                    Width="500"
+                    Height="45"
+                    FontSize="22"
+                    Margin="0 25 0 0"/>
+
+        </StackPanel>
+
+    </ScrollViewer>
+</UserControl>

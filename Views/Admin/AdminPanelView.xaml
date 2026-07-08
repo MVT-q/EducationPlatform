@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="Education_Platform.Views.Admin.AdminPanelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Education_Platform.Views.Admin"
+             xmlns:vm="clr-namespace:Education_Platform.ViewModels.Admin"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <vm:AdminPanelViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0 0 0 20">
+
+            <TextBlock Text="User Management"
+                       FontSize="28"
+                       FontWeight="Bold"/>
+
+            <TextBlock Text="{Binding Users.Count,
+                              StringFormat=Total users: {0}}"
+                       FontSize="14"
+                       Opacity="0.7"
+                       Margin="0 5 0 0"/>
+
+        </StackPanel>
+
+        <Grid Grid.Row="1"
+              Margin="0 0 0 20">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0"
+                     Margin="0 0 15 0"
+                     Text="{Binding SearchText,
+                            UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Search by login or email"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+            <Button Grid.Column="1"
+                    Width="120"
+                    Height="40"
+                    Content="Refresh"
+                    Command="{Binding RefreshCommand}"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
+
+        </Grid>
+
+        <DataGrid Grid.Row="2"
+                  ItemsSource="{Binding Users}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  BorderThickness="0"
+                  RowHeight="60"
+                  FontSize="14"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserResizeRows="False"
+                  CanUserResizeColumns="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Actions"
+                                        Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+
+                            <Button Command="{Binding DataContext.DeleteCommand,
+                                              RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}"
+                                    Width="50"
+                                    Height="40"
+                                    ToolTip="Delete user"
+                                    Background="#E53935">
+                                <materialDesign:PackIcon Kind="Delete"/>
+                            </Button>
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="ID"
+                                    Binding="{Binding Id}"
+                                    Width="80"
+                                    FontSize="18"/>
+
+                <DataGridTextColumn Header="Login"
+                                    Binding="{Binding Login}"
+                                    Width="*"
+                                    FontSize="18"/>
+
+                <DataGridTextColumn Header="Email"
+                                    Binding="{Binding Email}"
+                                    Width="*"
+                                    FontSize="18"/>
+
+                <DataGridTemplateColumn Header="Role" 
+                                        Width="170">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox SelectedItem="{Binding Role, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemsSource="{Binding DataContext.Roles,
+                                                    RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                      SelectionChanged="ComboBox_SelectionChanged"
+                                      Width="120"
+                                      FontSize="18"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+    </Grid>
+</UserControl>

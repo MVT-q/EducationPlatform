@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="Education_Platform.Views.Teacher.TeacherAttemptDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Education_Platform.Views.Teacher"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <materialDesign:Card Padding="20"
+                                 Margin="0 0 0 20">
+                <StackPanel>
+
+                    <TextBlock Text="{Binding StudentLogin}"
+                               FontSize="24"
+                               FontWeight="Bold"/>
+
+                    <TextBlock Text="{Binding AttemptNumber,
+                                      StringFormat=Attempt #{0}}"
+                               FontSize="16"
+                               Foreground="Gray"
+                               Margin="0 5 0 5"/>
+
+                    <TextBlock FontSize="14"
+                               Foreground="Gray"
+                               Margin="0 0 0 15">
+                        <Run Text="Completed: "/>
+                        <Run Text="{Binding CreatedAt,
+                                    StringFormat={}{0:dd.MM.yyyy HH:mm}}"/>
+                    </TextBlock>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Button Content="◀ Previous"
+                                Width="150"
+                                Margin="0 0 10 0"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Command="{Binding PreviousAttemptCommand}"
+                                IsEnabled="{Binding CanGoPrevious}" Cursor="Hand"/>
+
+                        <Button Content="Next ▶"
+                                Width="150"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Command="{Binding NextAttemptCommand}"
+                                IsEnabled="{Binding CanGoNext}"/>
+
+                    </StackPanel>
+                        <Button Content="Delete Attempt"
+                                HorizontalAlignment="Left"
+                                Width="150"
+                                Height="40"
+                                Margin="0 20 0 0"
+                                Background="#D32F2F"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                Command="{Binding DeleteAttemptCommand}"/>
+
+                </StackPanel>
+            </materialDesign:Card>
+
+            <ItemsControl ItemsSource="{Binding Answers}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+
+                        <materialDesign:Card Padding="20"
+                                             Margin="0 0 0 15">
+                            <StackPanel>
+                                <TextBlock FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="#3F51B5"
+                                           Margin="0 0 0 8"
+                                           Text="{Binding Number,
+                                                  StringFormat=Question {0}}"/>
+
+                                <TextBlock Text="{Binding QuestionText}"
+                                           FontWeight="Bold"
+                                           FontSize="16"/>
+
+                                <TextBlock Margin="0 5 0 0" 
+                                           FontSize="14">                                
+                                    <Run Text="Student answer: " FontWeight="SemiBold"/>
+                                    <Run Text="{Binding StudentAnswer}"/>
+                                </TextBlock>
+
+                                <TextBlock Margin="0 5 0 0"
+                                           FontSize="14">                              
+                                    <Run Text="Correct answer: " FontWeight="SemiBold"/>
+                                    <Run Text="{Binding CorrectAnswer}"/>
+                                </TextBlock>
+
+                                <TextBlock Margin="0 5 0 0"
+                                           Foreground="Green"
+                                           Text="Correct"
+                                           FontSize="18"
+                                           FontWeight="SemiBold">
+
+                                    <TextBlock.Style>
+
+                                        <Style TargetType="TextBlock">
+
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed"/>
+
+                                            <Style.Triggers>
+
+                                                <DataTrigger Binding="{Binding IsCorrect}"
+                                                             Value="True">
+
+                                                    <Setter Property="Visibility"
+                                                            Value="Visible"/>
+
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+
+                                        </Style>
+
+                                    </TextBlock.Style>
+
+                                </TextBlock>
+
+                            </StackPanel>
+
+                        </materialDesign:Card>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
